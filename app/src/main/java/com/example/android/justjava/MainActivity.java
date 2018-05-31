@@ -1,5 +1,5 @@
 /**
- * IMPORTANT: Make sure you are using the correct package name. 
+ * IMPORTANT: Make sure you are using the correct package name.
  * This example uses the package name:
  * package com.example.android.justjava
  * If you get an error when copying this code into Android studio, update it to match teh package name found
@@ -21,19 +21,30 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
+    int quantity = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
 
+    public void increment(View view){
+        quantity +=1;
+        display(quantity);
+    }
+
+    public void decrement(View view){
+        quantity -=1;
+        display(quantity);
+    }
+
+
     /**
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        int numberOfCoffee = 2;
-        display(numberOfCoffee);
-        displayPrice(numberOfCoffee*5);
+        displayPrice(quantity*5);
     }
 
     /**
