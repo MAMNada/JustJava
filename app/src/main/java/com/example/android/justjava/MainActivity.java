@@ -44,12 +44,20 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
-        String priceMessage = "Price $" + (quantity*5) +
-                "\nThank you";
+        String priceMessage = createOrderSummary(calculatePrice());
         displayMessage(priceMessage);
+        calculatePrice();
 
     }
 
+    /**
+     *
+     * @return
+     */
+    private int calculatePrice() {
+        int price = quantity * 5;
+        return price;
+    }
     /**
      * This method displays the given quantity value on the screen.
      */
@@ -72,5 +80,13 @@ public class MainActivity extends AppCompatActivity {
     private void displayMessage(String message) {
         TextView priceTextView = (TextView) findViewById(R.id.price_text_view);
         priceTextView.setText(message);
+    }
+
+    private String createOrderSummary(int price){
+        String orderSummary = "Name: Muhammad Nada\n"+
+                "Quantity: "+ quantity +"\n"+
+                "Total: "+ price+"$\n"+
+                "Thank you!";
+        return  orderSummary;
     }
 }
