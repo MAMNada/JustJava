@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -43,10 +44,18 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        EditText nameField = findViewById(R.id.name);
+        String personName = nameField.getText().toString();
+
         CheckBox whippedCreamCheckBox = findViewById(R.id.whipped_cream_checkbox);
-        String priceMessage = createOrderSummary(calculatePrice(),whippedCreamCheckBox.isChecked() );
+        boolean hasWhippedCream = whippedCreamCheckBox.isChecked();
+
+        CheckBox chocolateCheckBox = findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolateCheckBox.isChecked();
+
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
+        String priceMessage = createOrderSummary(personName,price,hasWhippedCream,hasChocolate );
         displayMessage(priceMessage);
-        calculatePrice();
 
     }
 
@@ -54,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
      *
      * @return
      */
-    public int calculatePrice() {
-        int price = quantity * 5;
+    public int calculatePrice(boolean hasWhipped, boolean hasChocolate) {
+        int price = (5 + (hasWhipped ? 1:0)*1 +(hasChocolate?1:0)*2) * quantity;
         return price;
     }
     /**
@@ -74,9 +83,17 @@ public class MainActivity extends AppCompatActivity {
         orderSummaryTextView.setText(message);
     }
 
-    public String createOrderSummary(int price, boolean hasWhipped){
-        String orderSummary = "Name: Muhammad Nada\n"+
+    /**
+     *
+     * @param price         - The value of the price as calculated by calculatePrice()
+     * @param hasWhipped    - boolean to indicate if whippedCream topping is required or not
+     * @param hasChocolate  - boolean to indicate if chocolate topping is required or not
+     * @return              - String to show the order summary
+     */
+    public String createOrderSummary(String name, int price, boolean hasWhipped, boolean hasChocolate){
+        String orderSummary = name+"\n"+
                 "Add WhippedCream?"+ hasWhipped +"\n"+
+                "Add Chocolate?"+ hasChocolate +"\n"+
                 "Quantity: "+ quantity +"\n"+
                 "Total: "+ price+"$\n"+
                 "Thank you!";
