@@ -9,12 +9,15 @@
 package com.example.android.justjava;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * This app displays an order form to order coffee.
@@ -30,12 +33,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void increment(View view){
-        quantity +=1;
+        if(quantity < 10) {
+            quantity += 1;
+        }else{
+            Toast.makeText(this, "No more",Toast.LENGTH_SHORT).show();
+            return;
+        }
         displayQuantity(quantity);
     }
 
     public void decrement(View view){
-        quantity -=1;
+        if(quantity > 1) {
+            quantity -= 1;
+        }else{
+            Toast.makeText(this, "No less",Toast.LENGTH_SHORT).show();
+            return;
+        }
         displayQuantity(quantity);
     }
 
@@ -55,8 +68,15 @@ public class MainActivity extends AppCompatActivity {
 
         int price = calculatePrice(hasWhippedCream, hasChocolate);
         String priceMessage = createOrderSummary(personName,price,hasWhippedCream,hasChocolate );
-        displayMessage(priceMessage);
+//        displayMessage(priceMessage);
 
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_SUBJECT, "Order Summary");
+        intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     /**
@@ -78,10 +98,10 @@ public class MainActivity extends AppCompatActivity {
     /**
      * This method displays the given text on the screen.
      */
-    private void displayMessage(String message) {
-        TextView orderSummaryTextView = findViewById(R.id.order_summary_text_view);
-        orderSummaryTextView.setText(message);
-    }
+//    private void displayMessage(String message) {
+//        TextView orderSummaryTextView = findViewById(R.id.order_summary_text_view);
+//        orderSummaryTextView.setText(message);
+//    }
 
     /**
      *
