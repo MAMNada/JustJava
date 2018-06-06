@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-        intent.putExtra(Intent.EXTRA_SUBJECT, "Order Summary");
+        intent.putExtra(Intent.EXTRA_SUBJECT,getString(R.string.order_summary));
         intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
@@ -111,12 +111,12 @@ public class MainActivity extends AppCompatActivity {
      * @return              - String to show the order summary
      */
     public String createOrderSummary(String name, int price, boolean hasWhipped, boolean hasChocolate){
-        String orderSummary = name+"\n"+
-                "Add WhippedCream?"+ hasWhipped +"\n"+
-                "Add Chocolate?"+ hasChocolate +"\n"+
-                "Quantity: "+ quantity +"\n"+
-                "Total: "+ price+"$\n"+
-                "Thank you!";
+        String orderSummary = getString(R.string.order_summary_name , name)+"\n"+
+                getString(R.string.Add_WhippedCream)+ hasWhipped +"\n"+
+                getString(R.string.Add_Chocolate)+ hasChocolate +"\n"+
+                getString(R.string.quantity) + quantity +"\n"+
+                getString(R.string.Total)+ price+"$\n"+
+                getString(R.string.Thank_you);
         return  orderSummary;
     }
 }
